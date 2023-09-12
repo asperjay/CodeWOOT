@@ -11,21 +11,17 @@ void swim(std::vector<int>& heap, int childIndex) {
     }
 }
 void sink(std::vector<int>& heap, int parentIndex = 0) {
-    int child1 = 2 * parentIndex + 1;
-    int child2 = child1 + 1;
-    if (child1 > heap.size()) {
-        return;
-    }
-    if (heap[parentIndex] < heap[child1]) {
-        std::swap(heap[child1], heap[parentIndex]);
-        sink(heap,child1);
-    }
-    if (child2 > heap.size()) {
-        return;
-    }
-    if (heap[parentIndex] < heap[child2]) {
-        std::swap(heap[child2], heap[parentIndex]);
-        sink(heap,child2);
+    int childIndex;
+    while (2 * childIndex + 2 < heap.size()) {
+        if (heap[2 * parentIndex + 1] > heap[2 * parentIndex + 2]) {
+            childIndex = 2 * parentIndex + 1;
+        } else {
+            childIndex = 2 * parentIndex + 2;
+        }
+        if (heap[parentIndex] < heap[childIndex]) {
+            std::swap(heap[childIndex], heap[parentIndex]);
+        }
+        parentIndex = childIndex;
     }
 }
 void processInstruction(std::vector<int>& heap, int instruction) {
@@ -50,7 +46,7 @@ int main() {
     int instruction;
     int q;
     std::cin >> q;
-    for (int i=0; i++; i<q) {
+    for (int i=0; i<q; i++) {
         std::cin >> instruction;
         processInstruction(heap,instruction);
         printHeap(heap);
