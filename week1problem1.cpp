@@ -50,7 +50,8 @@ int main() {
     int instruction;
     int q;
     std::cin >> q;
-    while (std::cin >> instruction) {
+    for (int i=0; i++; i<q) {
+        std::cin >> instruction;
         processInstruction(heap,instruction);
         printHeap(heap);
     }
