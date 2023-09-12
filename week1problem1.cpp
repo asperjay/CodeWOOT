@@ -12,7 +12,7 @@ void swim(std::vector<int>& heap, int childIndex) {
 }
 void sink(std::vector<int>& heap, int parentIndex = 0) {
     int childIndex;
-    while (2 * childIndex + 2 < heap.size()) {
+    while ((2 * childIndex + 2) < (heap.size())) {
         if (heap[2 * parentIndex + 1] > heap[2 * parentIndex + 2]) {
             childIndex = 2 * parentIndex + 1;
         } else {
