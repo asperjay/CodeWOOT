@@ -16,7 +16,7 @@ void sink(std::vector<int>& heap, int parentIndex = 0) {
         childIndex = 2 * parentIndex + 2;
     }
 
-    while (parentIndex < heap.size() && heap[parentIndex] < heap[childIndex]) {
+    while (childIndex < heap.size() && heap[parentIndex] < heap[childIndex]) {
         std::swap(heap[childIndex], heap[parentIndex]);
         parentIndex = childIndex;
         childIndex = 2 * parentIndex + 1;
@@ -47,7 +47,7 @@ int main() {
     int instruction;
     int q;
     std::cin >> q;
-    for (int i=0; i++; i<q) {
+    for (int i=0; i<q; i++) {
         std::cin >> instruction;
         processInstruction(heap,instruction);
         printHeap(heap);
