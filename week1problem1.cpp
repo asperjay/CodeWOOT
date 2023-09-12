@@ -13,13 +13,7 @@ void swim(std::vector<int>& heap, int childIndex) {
 void sink(std::vector<int>& heap, int parentIndex = 0) {
     int childIndex = 2 * parentIndex + 1;
 
-    while (parentIndex < heap.size()) {
-        if (heap[parentIndex] < heap[childIndex]) {
-            int childIndex = childIndex - 2;
-            if (heap[parentIndex] < heap[childIndex]) {
-                break;
-            }
-        }
+    while (parentIndex < heap.size() && heap[parentIndex] < heap[childIndex]) {
         std::swap(heap[childIndex], heap[parentIndex]);
         parentIndex = childIndex;
         childIndex = 2 * parentIndex + 1;
