@@ -38,13 +38,12 @@ void printHeap(std::vector<int>& heap) {
 }
 int main() {
     std::vector<int> heap;
-    heap.push_back(5);
-    heap.push_back(2);
-    heap.push_back(3);
-    printHeap(heap);
-    processInstruction(heap,4);
-    printHeap(heap);
-    processInstruction(heap,0);
-    printHeap(heap);
+    int instruction;
+    int q;
+    std::cin >> q;
+    while (std::cin >> instruction) {
+        processInstruction(heap,instruction);
+        printHeap(heap);
+    }
     return 0;
 }
