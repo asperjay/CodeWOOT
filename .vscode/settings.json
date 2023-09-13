@@ -68,6 +68,8 @@
         "memory_resource": "cpp",
         "random": "cpp",
         "utility": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "numbers": "cpp",
+        "queue": "cpp"
     }
 }
