@@ -1,9 +1,17 @@
 #include <iostream>
-#include <vector>
+#include <queue>
+#include <algorithm>
 using namespace std;
 
+int getBestimate(int vertexBestimate, int neighborBestimate, int distance) {
+    return std::min(neighborBestimate, vertexBestimate + distance);
+}
+
 void largestCow(int *A, int *B, int *L, int *S, int N, int& largestCowSize, int& minimumPathLength) {
-    return;
+    std::queue<int> frontiers;
+    while (1) {
+        ;
+    }
 }
 
 int main() {
