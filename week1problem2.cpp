@@ -1,6 +1,7 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#define int long long
 using namespace std;
 
 struct rect{
@@ -62,10 +63,10 @@ int calculateArea(int *L, int *R, int *H, int N) {
         }
         lastIndex = currentIndex;
     }
-    return area;   
+    return area;
 }
 
-int main() {
+signed main() {
     std::string currentLine;
     int q;
     std::cin >> q;
@@ -79,6 +80,6 @@ int main() {
         std::cin >> R[i];
         std::cin >> H[i];
     }
-    std::cout << calculateArea(L,R,H,q);
+    std::cout << calculateArea(L,R,H,q) << std::endl;;
     return 0;
 }
