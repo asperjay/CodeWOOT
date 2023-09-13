@@ -54,11 +54,14 @@ int calculateArea(int (&L)[N], int (&R)[N], int (&H)[N]) {
 
     int currentIndex;
     for (int i=0; i<indices.size(); i++) {
-        currentIndex = indices.top()
+        currentIndex = indices.top();
         indices.pop();
-        if (leftmostRects.top().l <= currentIndex) {
+        while (leftmostRects.top().l <= currentIndex) {
             activeRects.push(leftmostRects.top());
             leftmostRects.pop();
+        }
+        while (activeRects.top().r <= currentIndex) {
+            activeRects.pop();
         }
     }
     return 0;   
