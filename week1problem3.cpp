@@ -1,13 +1,14 @@
 #include <iostream>
 #include <queue>
 #include <algorithm>
+#include <utility>
 using namespace std;
 
 int getBestimate(int vertexBestimate, int neighborBestimate, int distance) {
     return std::min(neighborBestimate, vertexBestimate + distance);
 }
 
-void largestCow(int *A, int *B, int *L, int *S, int N, int& largestCowSize, int& minimumPathLength) {
+pair<int,int> largestCow(int *A, int *B, int *L, int *S, int N) {
     std::queue<int> frontiers;
     while (1) {
         ;
@@ -34,7 +35,7 @@ int main() {
     }
     int largestCowSize;
     int minimumPathLength;
-    largestCow(A,B,L,S,N,largestCowSize,minimumPathLength);
-    std::cout << largestCowSize << minimumPathLength << std::endl;;
+    pair<int,int> result = largestCow(A,B,L,S,N);
+    std::cout << result.first << result.second << std::endl;;
     return 0;
 }
