@@ -5,6 +5,7 @@
 #include <utility>
 #include <limits.h>
 #include <set>
+#include <bits/stdc++.h>
 using namespace std;
 
 struct Bestimate{
@@ -93,6 +94,7 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
 
 int main() {
     ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     std::string currentLine;
     int N;
     int M;
@@ -113,6 +115,6 @@ int main() {
     int largestCowSize;
     int minimumPathLength;
     Bestimate result = largestCowshortestPath(A,B,L,S,N,M);
-    std::cout << result.cowSize << ' ' << result.roadLength << std::endl;
+    std::cout << result.cowSize << ' ' << result.roadLength << '\n';
     return 0;
 }
