@@ -79,21 +79,20 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     int currentField;
     Road currentRoad;
     while (1) {
-        currentField = fields.top(); // look at this field's neighbors
-        fields.pop(); // no need to look back at already visited fields
-        if (currentField == N-1) {
-            break;
-        }
-        if (isIn(currentField,exploredFields)) {
-+           continue;
-+       }
-        exploredFields.push_back(currentField);
-        vector<Road> connectedRoads = roads[currentField];
-        for (int i=0; i<connectedRoads.size(); i++) {
-            currentRoad = connectedRoads[i];
-            if (!isIn(currentRoad.field,exploredFields)) {
-                bestimates[currentRoad.field] = updateBestimate(bestimates[currentField],bestimates[currentRoad.field],currentRoad);
-                fields.push(currentRoad.field);
+        if (!isIn(currentField,exploredFields)) {
+            currentField = fields.top(); // look at this field's neighbors
+            fields.pop(); // no need to look back at already visited fields
+            if (currentField == N-1) {
+                break;
+            }
+            exploredFields.push_back(currentField);
+            vector<Road> connectedRoads = roads[currentField];
+            for (int i=0; i<connectedRoads.size(); i++) {
+                currentRoad = connectedRoads[i];
+                if (!isIn(currentRoad.field,exploredFields)) {
+                    bestimates[currentRoad.field] = updateBestimate(bestimates[currentField],bestimates[currentRoad.field],currentRoad);
+                    fields.push(currentRoad.field);
+                }
             }
         }
     }
