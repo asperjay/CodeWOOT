@@ -19,16 +19,12 @@ struct Road{
     int cowSize;
 };
 
-Bestimate getBestimate(int fieldNum) {
-    return bestimates[fieldNum];
-}
-
 class SmallestBestimate {
     public:
         bool operator()(int field1, int field2) {
-            return getBestimate(field1).cowSize < getBestimate(field2).cowSize || 
-            (getBestimate(field1).cowSize == getBestimate(field2).cowSize && 
-            getBestimate(field1).roadLength >= getBestimate(field2).roadLength);
+            return bestimates[field1].cowSize < bestimates[field2].cowSize || 
+            (bestimates[field1].cowSize == bestimates[field2].cowSize && 
+            bestimates[field1].roadLength >= bestimates[field2].roadLength);
         }
 };
 
@@ -96,7 +92,7 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
             }
         }
     }
-    return getBestimate(N-1);
+    return bestimates[N-1];
 }
 
 int main() {
