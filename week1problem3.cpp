@@ -26,9 +26,9 @@ Bestimate getBestimate(int fieldNum) {
 class SmallestBestimate {
     public:
         bool operator()(int field1, int field2) {
-            return getBestimate(field1).cowSize > getBestimate(field2).cowSize || 
+            return getBestimate(field1).cowSize < getBestimate(field2).cowSize || 
             (getBestimate(field1).cowSize == getBestimate(field2).cowSize && 
-            getBestimate(field1).roadLength < getBestimate(field2).roadLength);
+            getBestimate(field1).roadLength > getBestimate(field2).roadLength);
         }
 };
 
@@ -53,7 +53,7 @@ Bestimate updateBestimate(Bestimate outsetBestimate, Bestimate destinationBestim
 Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     priority_queue<int, vector<int>, SmallestBestimate> fields; // field #
     vector<int> exploredFields;
-    fields.push(1);
+    fields.push(0);
     Bestimate fieldBestimate;
     fieldBestimate.roadLength=0;
     fieldBestimate.cowSize=INT_MAX;
@@ -67,21 +67,21 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     Road road1;
     Road road2;
     for (int i=0; i<M; i++) {
-        road1.field = B[i];
-        road2.field = A[i];
+        road1.field = B[i]-1;
+        road2.field = A[i]-1;
         road1.length = L[i];
         road2.length = L[i];
         road1.cowSize = S[i];
         road2.cowSize = S[i];
-        roads[A[i]].push_back(road1);
-        roads[B[i]].push_back(road2);
+        roads[A[i]-1].push_back(road1);
+        roads[B[i]-1].push_back(road2);
     }
     int currentField;
     Road currentRoad;
     while (1) {
         currentField = fields.top(); // look at this field's neighbors
         fields.pop(); // no need to look back at already visited fields
-        if (currentField == N) {
+        if (currentField == N-1) {
             break;
         }
         exploredFields.push_back(currentField);
@@ -94,7 +94,7 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
             }
         }
     }
-    return getBestimate(currentField);
+    return getBestimate(N-1);
 }
 
 int main() {
