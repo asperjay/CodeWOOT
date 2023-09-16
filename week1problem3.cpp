@@ -84,6 +84,9 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
         if (currentField == N-1) {
             break;
         }
+        if (isIn(currentField,exploredFields)) {
++           continue;
++       }
         exploredFields.push_back(currentField);
         vector<Road> connectedRoads = roads[currentField];
         for (int i=0; i<connectedRoads.size(); i++) {
