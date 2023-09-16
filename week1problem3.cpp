@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <utility>
 #include <limits.h>
+#include <set>
 using namespace std;
 
 struct Bestimate{
@@ -28,13 +29,9 @@ class SmallestBestimate {
         }
 };
 
-bool isIn(int element, vector<int> searchSpace) {
-    for (int i=0; i<searchSpace.size(); i++) {
-        if (element == searchSpace[i]) {
-            return true;
-        }
-    }
-    return false;
+bool isIn(int element, std::set<int> searchSpace) {
+    int count = searchSpace.count(element);
+    return count > 0;
 }
 
 Bestimate updateBestimate(Bestimate outsetBestimate, Bestimate destinationBestimate, Road thoroughfare) {
@@ -48,7 +45,7 @@ Bestimate updateBestimate(Bestimate outsetBestimate, Bestimate destinationBestim
 
 Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     priority_queue<int, vector<int>, SmallestBestimate> fields; // field #
-    vector<int> exploredFields;
+    std::set<int> exploredFields;
     fields.push(0);
     Bestimate fieldBestimate;
     fieldBestimate.roadLength=0;
@@ -75,13 +72,13 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     int currentField;
     Road currentRoad;
     while (1) {
+        currentField = fields.top(); // look at this field's neighbors
+        fields.pop(); // no need to look back at already visited fields
+        if (currentField == N-1) {
+            break;
+        }
         if (!isIn(currentField,exploredFields)) {
-            currentField = fields.top(); // look at this field's neighbors
-            fields.pop(); // no need to look back at already visited fields
-            if (currentField == N-1) {
-                break;
-            }
-            exploredFields.push_back(currentField);
+            exploredFields.insert(currentField);
             vector<Road> connectedRoads = roads[currentField];
             for (int i=0; i<connectedRoads.size(); i++) {
                 currentRoad = connectedRoads[i];
