@@ -28,7 +28,7 @@ class SmallestBestimate {
         bool operator()(int field1, int field2) {
             return getBestimate(field1).cowSize < getBestimate(field2).cowSize || 
             (getBestimate(field1).cowSize == getBestimate(field2).cowSize && 
-            getBestimate(field1).roadLength > getBestimate(field2).roadLength);
+            getBestimate(field1).roadLength >= getBestimate(field2).roadLength);
         }
 };
 
