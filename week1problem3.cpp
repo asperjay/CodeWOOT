@@ -56,7 +56,7 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     for (int i=1; i<N; i++) {
         bestimates.push_back(fieldBestimate);
     }
-    vector<Road> roads[M]; // index i is a vector of roads containing field i
+    vector<Road> roads[M]; // index i of roads is a vector of roads containing field i
     Road road1;
     Road road2;
     for (int i=0; i<M; i++) {
@@ -78,7 +78,7 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
             break;
         }
         if (exploredFields.count(currentField) == 0) {
-            exploredFields.insert(currentField);
+            exploredFields.insert(currentField);    
             for (int i=0; i<roads[currentField].size(); i++) {
                 currentRoad = roads[currentField][i];
                 if (exploredFields.count(currentRoad.field) == 0) {
@@ -92,6 +92,7 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
     std::string currentLine;
     int N;
     int M;
