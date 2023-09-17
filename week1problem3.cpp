@@ -5,12 +5,17 @@
 #include <utility>
 #include <limits.h>
 #include <set>
-#include <bits/stdc++.h>
+#define int long
 using namespace std;
 
 struct Bestimate{
     int roadLength;
     int cowSize;
+};
+
+struct Field{
+    int fieldNum;
+    Bestimate bestimate;
 };
 
 vector<Bestimate> bestimates;
@@ -23,10 +28,10 @@ struct Road{
 
 class SmallestBestimate {
     public:
-        bool operator()(int field1, int field2) {
-            return bestimates[field1].cowSize < bestimates[field2].cowSize || 
-            (bestimates[field1].cowSize == bestimates[field2].cowSize && 
-            bestimates[field1].roadLength >= bestimates[field2].roadLength);
+        bool operator()(Field field1, Field field2) {
+            return field1.bestimate.cowSize < field2.bestimate.cowSize || 
+            (field1.bestimate.cowSize == field2.bestimate.cowSize && 
+            field1.bestimate.roadLength >= field2.bestimate.roadLength);
         }
 };
 
@@ -37,23 +42,33 @@ bool isIn(int element, std::set<int> searchSpace) {
 
 Bestimate updateBestimate(Bestimate outsetBestimate, Bestimate destinationBestimate, Road thoroughfare) {
     Bestimate result;
-    result.roadLength = std::min(destinationBestimate.roadLength,
-    outsetBestimate.roadLength + thoroughfare.length);
-    result.cowSize = std::min(std::min(destinationBestimate.cowSize,
-    outsetBestimate.cowSize), thoroughfare.cowSize);
+    if (destinationBestimate.cowSize < std::min(outsetBestimate.cowSize, thoroughfare.cowSize)) {
+        result.roadLength = outsetBestimate.roadLength + thoroughfare.length;
+        result.cowSize = std::min(outsetBestimate.cowSize,thoroughfare.cowSize);
+    } else if (destinationBestimate.cowSize > std::min(outsetBestimate.cowSize, thoroughfare.cowSize)) {
+        result = destinationBestimate;
+    } else if (destinationBestimate.roadLength < outsetBestimate.roadLength + thoroughfare.length) {
+        result = destinationBestimate;
+    } else {
+        result.roadLength = outsetBestimate.roadLength + thoroughfare.length;
+        result.cowSize = std::min(outsetBestimate.cowSize,thoroughfare.cowSize);
+    }
     return result;
 }
 
 Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
-    priority_queue<int, vector<int>, SmallestBestimate> fields; // field #
+    priority_queue<Field, vector<Field>, SmallestBestimate> fields;
     std::set<int> exploredFields;
-    fields.push(0);
     Bestimate fieldBestimate;
     fieldBestimate.roadLength=0;
     fieldBestimate.cowSize=INT_MAX;
     bestimates.push_back(fieldBestimate);
+    Field field;
+    field.bestimate = fieldBestimate;
+    field.fieldNum = 0;
+    fields.push(field);
     fieldBestimate.roadLength=INT_MAX;
-    fieldBestimate.cowSize=INT_MAX;
+    fieldBestimate.cowSize=0;
     for (int i=1; i<N; i++) {
         bestimates.push_back(fieldBestimate);
     }
@@ -70,21 +85,24 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
         roads[A[i]-1].push_back(road1);
         roads[B[i]-1].push_back(road2);
     }
-    int currentField;
+    Field currentField;
     Road currentRoad;
+    Field newField;
     while (1) {
         currentField = fields.top(); // look at this field's neighbors
         fields.pop(); // no need to look back at already visited fields
-        if (currentField == N-1) {
+        if (currentField.fieldNum == N-1) {
             break;
         }
-        if (exploredFields.count(currentField) == 0) {
-            exploredFields.insert(currentField);    
-            for (int i=0; i<roads[currentField].size(); i++) {
-                currentRoad = roads[currentField][i];
+        if (exploredFields.count(currentField.fieldNum) == 0) {
+            exploredFields.insert(currentField.fieldNum);
+            for (int i=0; i<roads[currentField.fieldNum].size(); i++) {
+                currentRoad = roads[currentField.fieldNum][i];
                 if (exploredFields.count(currentRoad.field) == 0) {
-                    bestimates[currentRoad.field] = updateBestimate(bestimates[currentField],bestimates[currentRoad.field],currentRoad);
-                    fields.push(currentRoad.field);
+                    bestimates[currentRoad.field] = updateBestimate(bestimates[currentField.fieldNum],bestimates[currentRoad.field],currentRoad);
+                    newField.fieldNum = currentRoad.field;
+                    newField.bestimate = bestimates[currentRoad.field];
+                    fields.push(newField);
                 }
             }
         }
@@ -92,10 +110,9 @@ Bestimate largestCowshortestPath(int *A, int *B, int *L, int *S, int N, int M) {
     return bestimates[N-1];
 }
 
-int main() {
+signed main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    std::string currentLine;
     int N;
     int M;
     std::cin >> N;
