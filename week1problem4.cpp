@@ -2,11 +2,28 @@
 #include <vector>
 #include <queue>
 #include <unordered_set>
+#include <functional>
 using namespace std;
 
 struct Sequence {
     vector<char> characters;
     int distance;
+    bool operator==(const Sequence& other) const {
+        return distance == other.distance && characters == other.characters;
+    }
+};
+
+struct SequenceHash {
+    std::size_t operator()(const Sequence& Sequence) const {
+        // Combine the hash of id and name
+        std::size_t hashDistance = hash<int>{}(Sequence.distance);
+        std::size_t hashCharacters = Sequence.characters.size();
+        for (int elem : Sequence.characters) {
+            // Combine the hash of each element with the seed
+            hashCharacters ^= std::hash<int>{}(elem) + 0x9e3779b9 + (hashCharacters << 6) + (hashCharacters >> 2);
+        }
+        return hashDistance ^ (hashCharacters << 1);
+    }
 };
 
 vector<Sequence> getNextPositions(vector<char>& currentCharacters, int dist) { 
@@ -53,7 +70,7 @@ void moover(vector<char>& characters) {
     queue<Sequence> nextPositions;
     vector<Sequence> nextSubFrontier;
     Sequence currentPosition;
-    unordered_set<Sequence> alreadyExplored;
+    unordered_set<Sequence, SequenceHash> alreadyExplored;
     while (!nextPositions.empty()) {
         currentPosition = nextPositions.front();
         nextPositions.pop();
@@ -82,11 +99,14 @@ int main() {
     vector<char> characters;
     for (int i=0; i<T; i++) {
         std::cin >> N;
+        std::cout << 'd' << '\n';
         char currentChar;
-        for (int j=0; i<N; i++) {
+        for (int j=0; j<N; j++) {
             std::cin >> currentChar;
+            std::cout << currentChar;
             characters.push_back(currentChar);
         }
+        std::cout << T << '\n';
         moover(characters);
         characters.clear();
     }
