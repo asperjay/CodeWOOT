@@ -23,8 +23,7 @@ struct SequenceHash {
     }
 };
 
-vector<Sequence> getNextPositions(vector<char>& currentCharacters, int dist) { 
-    vector<Sequence> result;
+void getNextPositions(vector<char>& currentCharacters, int dist, vector<Sequence>& result) {
     int leftZeroIndex;
     for (int i=0; i<currentCharacters.size(); i++) {
         if (currentCharacters[i] == 'O') {
@@ -45,7 +44,6 @@ vector<Sequence> getNextPositions(vector<char>& currentCharacters, int dist) {
         nextSeq.characters = nextCharacters;
         result.push_back(nextSeq);
     }
-    return result;
 }
 
 void printVector(vector<char>& vec) {
@@ -87,12 +85,13 @@ void moover(vector<char>& characters) {
             std::cout << currentPosition.distance << '\n';
             return;
         }
-        nextSubFrontier = getNextPositions(currentPosition.characters,currentPosition.distance+1);
+        getNextPositions(currentPosition.characters,currentPosition.distance+1, nextSubFrontier);
         for (int i=0; i<nextSubFrontier.size(); i++) {
             if (alreadyExplored.find(nextSubFrontier[i]) == alreadyExplored.end()) {
                 nextPositions.push(nextSubFrontier[i]);
             }
         }
+        nextSubFrontier.clear();
         alreadyExplored.insert(currentPosition);
     }
     std::cout << "IMPOSSIBLE" << '\n';
@@ -116,6 +115,5 @@ int main() {
         moover(characters);
         characters.clear();
     }
-    std::cout << '\n';
     return 0;
 }
