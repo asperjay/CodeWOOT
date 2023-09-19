@@ -15,12 +15,11 @@ struct Sequence {
 
 struct SequenceHash {
     std::size_t operator()(const Sequence& Sequence) const {
-        std::size_t hashDistance = hash<int>{}(Sequence.distance);
         std::size_t hashCharacters = Sequence.characters.size();
         for (int elem : Sequence.characters) {
             hashCharacters ^= std::hash<int>{}(elem) + 0x9e3779b9 + (hashCharacters << 6) + (hashCharacters >> 2);
         }
-        return hashDistance ^ (hashCharacters << 1);
+        return hashCharacters;
     }
 };
 
@@ -56,19 +55,19 @@ void printVector(vector<char>& vec) {
 }
 
 bool isSplit(vector<char>& currentCharacters) {
-    printVector(currentCharacters);
+    //printVector(currentCharacters);
     bool reachedH = false;
     for (int i=0; i<currentCharacters.size(); i++) {
         if (reachedH) {
             if (currentCharacters[i] == 'G') {
-                cout << "\n f\n";
+                //cout << "\n f\n";
                 return false;
             }
         } else if (currentCharacters[i] == 'H') {
             reachedH = true;
         }
     }
-    cout << "\n t\n";
+    //cout << "\n t\n";
     return true;
 }
 
