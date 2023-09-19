@@ -9,7 +9,7 @@ struct Sequence {
     vector<char> characters;
     int distance;
     bool operator==(const Sequence& other) const {
-        return distance == other.distance && characters == other.characters;
+        return characters == other.characters;
     }
 };
 
