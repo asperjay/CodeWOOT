@@ -54,7 +54,7 @@ vector<Sequence> getNextPositions(vector<char>& currentCharacters, int dist) {
 
 bool isSplit(vector<char>& currentCharacters) {
     bool reachedH = false;
-    for (int i=1; i<currentCharacters.size(); i++) {
+    for (int i=0; i<currentCharacters.size(); i++) {
         if (reachedH) {
             if (currentCharacters[i] == 'G') {
                 return false;
@@ -68,6 +68,10 @@ bool isSplit(vector<char>& currentCharacters) {
 
 void moover(vector<char>& characters) {
     queue<Sequence> nextPositions;
+    Sequence starting;
+    starting.characters = characters;
+    starting.distance = 0;
+    nextPositions.push(starting);
     vector<Sequence> nextSubFrontier;
     Sequence currentPosition;
     unordered_set<Sequence, SequenceHash> alreadyExplored;
