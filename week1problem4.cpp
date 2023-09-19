@@ -37,15 +37,14 @@ vector<Sequence> getNextPositions(vector<char>& currentCharacters, int dist) {
     vector<char> nextCharacters;
     nextSeq.distance = dist;
     for (int i=0; i<currentCharacters.size()-1; i++) {
-        if (i == leftZeroIndex - 1) {
-            i += 2;
-        } else {
-            nextCharacters = currentCharacters;
-            std::swap(nextCharacters[i],nextCharacters[leftZeroIndex]);
-            std::swap(nextCharacters[i+1],nextCharacters[leftZeroIndex+1]);
-            nextSeq.characters = nextCharacters;
-            result.push_back(nextSeq);
+        if (i == leftZeroIndex - 1 || i == leftZeroIndex || i == leftZeroIndex + 1) {
+            continue;
         }
+        nextCharacters = currentCharacters;
+        std::swap(nextCharacters[i],nextCharacters[leftZeroIndex]);
+        std::swap(nextCharacters[i+1],nextCharacters[leftZeroIndex+1]);
+        nextSeq.characters = nextCharacters;
+        result.push_back(nextSeq);
     }
     return result;
 }
