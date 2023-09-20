@@ -78,6 +78,7 @@ void moover(vector<char>& characters) {
     vector<Sequence> nextSubFrontier;
     Sequence currentPosition;
     unordered_set<Sequence, SequenceHash> alreadyExplored;
+    alreadyExplored.insert(starting);
     while (!nextPositions.empty()) {
         currentPosition = nextPositions.front();
         nextPositions.pop();
@@ -89,10 +90,10 @@ void moover(vector<char>& characters) {
         for (int i=0; i<nextSubFrontier.size(); i++) {
             if (alreadyExplored.find(nextSubFrontier[i]) == alreadyExplored.end()) {
                 nextPositions.push(nextSubFrontier[i]);
+                alreadyExplored.insert(nextSubFrontier[i]);
             }
         }
         nextSubFrontier.clear();
-        alreadyExplored.insert(currentPosition);
     }
     std::cout << "IMPOSSIBLE" << '\n';
 }
@@ -100,7 +101,6 @@ void moover(vector<char>& characters) {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    std::string currentLine;
     int T;
     std::cin >> T;
     int N;
