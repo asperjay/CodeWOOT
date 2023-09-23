@@ -10,7 +10,7 @@ int sumOfCosts(vector<int>& A, vector<int>& B, vector<int>& C, int N, int M) {
         costimates[i] = INT_MAX;
     }
     for (int i=0; i<N; i++) {
-        costimates[i*(N+1)] = INT_MAX;
+        costimates[i*(N+1)] = 0;
     }
     for (int i=0; i<M; i++) {
         costimates[A[i]*N+B[i]] = C[i];
@@ -31,6 +31,7 @@ int sumOfCosts(vector<int>& A, vector<int>& B, vector<int>& C, int N, int M) {
     int result;
     for (int i=0; i<N*N; i++) {
         result += costimates[i];
+        cout << costimates[i];
     }
     return result;
 }
