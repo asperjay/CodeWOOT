@@ -51,6 +51,6 @@ int main() {
         cin >> currentVal;
         C.push_back(currentVal);
     }
-    cout << sumOfCosts(A,B,C,N,M);
+    cout << sumOfCosts(A,B,C,N,M) << endl;
     return 0;
 }
