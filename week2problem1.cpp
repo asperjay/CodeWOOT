@@ -14,20 +14,17 @@ void dump(int* costimates, int N) {
   cout << "\n";
 }
 
-int sumOfCosts(vector<int>& A, vector<int>& B, vector<int>& C, int N, int M) {
-    int* costimates = new int[N*N]; // costTable[i*N+j] is the cost from i to j if 0<=j<N
+int sumOfCosts(vector<int>& A, vector<int>& B, vector<long long>& C, int N, int M) {
+    long long* costimates = new long long[N*N]; // costTable[i*N+j] is the cost from i to j if 0<=j<N
     for (int i=0; i<N*N; i++) {
-        costimates[i] = INT_MAX;
+        costimates[i] = 1000000001;
     }
-    dump(costimates, N);
     for (int i=0; i<N; i++) {
         costimates[i*(N+1)] = 0;
     }
-    dump(costimates, N);
     for (int i=0; i<M; i++) {
         costimates[A[i]*N+B[i]] = C[i];
     }
-    dump(costimates, N);
     for (int source=0; source<N; source++) {
         for (int dest=0; dest<N; dest++) {
             if (source == dest) {
@@ -41,11 +38,9 @@ int sumOfCosts(vector<int>& A, vector<int>& B, vector<int>& C, int N, int M) {
             }
         }
     }
-    dump(costimates, N);
-    int result;
+    int result = 0;
     for (int i=0; i<N*N; i++) {
         result += costimates[i];
-        cout << costimates[i] << " ";
     }
     return result;
 }
@@ -56,16 +51,18 @@ int main() {
     int N,M;
     std::cin >> N;
     std::cin >> M;
-    vector<int> A,B,C;
+    vector<int> A,B;
+    vector<long long> C;
     int currentVal;
+    long long currentVal2;
     for (int i=0; i<M; i++) {
         cin >> currentVal;
         A.push_back(currentVal-1);
         cin >> currentVal;
         B.push_back(currentVal-1);
-        cin >> currentVal;
-        C.push_back(currentVal);
+        cin >> currentVal2;
+        C.push_back(currentVal2);
     }
-    cout << sumOfCosts(A,B,C,N,M) << endl;
+    cout << sumOfCosts(A,B,C,N,M) << '\n';
     return 0;
 }
