@@ -16,13 +16,13 @@ long long sumOfCosts(vector<int>& A, vector<int>& B, vector<long long>& C, int N
         costimates[A[i]*N+B[i]] = C[i];
     }
     long long sum=0;
-    for (int source=0; source<N; source++) {
-        for (int dest=0; dest<N; dest++) {
-            if (source == dest) {
+    for (int helper=0; helper<N; helper++) {
+        for (int source=0; source<N; source++) {
+            if (source == helper) {
                 continue;
             }
-            for (int helper=0; helper<N; helper++) {
-                if (source == helper || dest == helper) {
+            for (int dest=0; dest<N; dest++) {
+                if (source == dest || dest == helper) {
                     continue;
                 }
                 if (costimates[source * N + helper] == LLONG_MAX || costimates[helper * N + dest] == LLONG_MAX) {
